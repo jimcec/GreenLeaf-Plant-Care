@@ -1,0 +1,79 @@
+{{!-- 
+Citation for the following code:
+Date: 7/27/2026
+Adapted from from CS340 Exploration - Web Application Technology
+Source URL: https://canvas.oregonstate.edu/courses/2051721/pages/exploration-web-application-technology-2?module_item_id=26923351
+ --}}
+
+
+<h1>Plant Species</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each plant_species.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the species_id, scientific_name, common_name, sunlight_type, watering_frequency, soil_type, and pet_safe }}
+        {{#each plant_species}}
+        <tr>
+            <td>{{this.species_id}}</td>
+            <td>{{this.scientific_name}}</td>
+            <td>{{this.common_name}}</td>
+            <td>{{this.sunlight_type}}</td>
+            <td>{{this.watering_frequency}}</td>
+            <td>{{this.soil_type}}</td>
+            <td>{{this.pet_safe}}</td>
+
+            {{! DELETE form }}
+            <td>
+                <form id='delete_species_form' action='/delete-species' method='POST'>
+                    <input type='hidden' name='delete_species_id' value='{{this.species_id}}' />
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create a Plant Species</h2>
+<form class='cuForm' id='create_species_form' action='/add-species' method='POST'>
+    <label>Scientific Name: <input type='text' name='scientific_name' required /></label>
+    <label>Common Name: <input type='text' name='common_name' required /></label>
+    <label>Sunlight Type: <input type='text' name='sunlight_type' required /></label>
+    <label>Watering Freq: <input type='text' name='watering_frequency' required /></label>
+    <label>Soil Type: <input type='text' name='soil_type' required /></label>
+    <label>Pet Safe (1=Yes, 0=No): <input type='number' name='pet_safe' min="0" max="1" /></label>
+    <input type='submit' value='Create Species' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a Plant Species</h2>
+<form class='cuForm' id='update_species_form' action='/update-species' method='POST'>
+    <label>Species to Update: 
+        <select name='update_species_id' required>
+            <option value='' disabled selected>Select a Species</option>
+            {{#each plant_species}}
+            <option value='{{this.species_id}}'>
+                {{this.species_id}} - {{this.common_name}}
+            </option>
+            {{/each}}
+        </select>
+    </label>
+    <label>Scientific Name: <input type='text' name='scientific_name' required /></label>
+    <label>Common Name: <input type='text' name='common_name' required /></label>
+    <input type='submit' value='Update Species' />
+</form>

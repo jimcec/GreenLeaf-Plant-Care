@@ -1,0 +1,90 @@
+{{!-- 
+Citation for the following code:
+Date: 7/27/2026
+Adapted from from CS340 Exploration - Web Application Technology
+Source URL: https://canvas.oregonstate.edu/courses/2051721/pages/exploration-web-application-technology-2?module_item_id=26923351
+ --}}
+
+
+<h1>Users</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each users.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the user_id, username, email, password, and date_joined }}
+        {{#each users}}
+        <tr>
+            <td>{{this.user_id}}</td>
+            <td>{{this.username}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.password}}</td>
+            <td>{{this.date_joined}}</td>
+
+            {{! DELETE form }}
+            <td>
+                <form id='delete_user_form' action='/delete-user' method='POST'>
+                    <input type='hidden' name='delete_user_id' value='{{this.user_id}}' />
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create a User</h2>
+<form class='cuForm' id='create_user_form' action='/add-user' method='POST'>
+    <label for='create_user_username'>Username: </label>
+    <input type='text' name='create_user_username' id='create_user_username' required />
+
+    <label for='create_user_email'>Email: </label>
+    <input type='email' name='create_user_email' id='create_user_email' required />
+
+    <label for='create_user_password'>Password: </label>
+    <input type='password' name='create_user_password' id='create_user_password' required />
+
+    <label for='create_user_date_joined'>Date Joined: </label>
+    <input type='date' name='create_user_date_joined' id='create_user_date_joined' required />
+
+    <input type='submit' value='Create User' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a User</h2>
+<form class='cuForm' id='update_user_form' action='/update-user' method='POST'>
+    <label for='update_user_id'>User to Update: </label>
+    <select name='update_user_id' id='update_user_id' required>
+        <option value='' disabled selected>Select a User</option>
+        {{#each users}}
+        <option value='{{this.user_id}}'>
+            {{this.user_id}} - {{this.username}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_user_username'>Username: </label>
+    <input type='text' name='update_user_username' id='update_user_username' required />
+
+    <label for='update_user_email'>Email: </label>
+    <input type='email' name='update_user_email' id='update_user_email' required />
+
+    <label for='update_user_password'>Password: </label>
+    <input type='password' name='update_user_password' id='update_user_password' required />
+
+    <input type='submit' value='Update User' />
+</form>

@@ -1,0 +1,132 @@
+{{!-- 
+Citation for the following code:
+Date: 7/27/2026
+Adapted from from CS340 Exploration - Web Application Technology
+Source URL: https://canvas.oregonstate.edu/courses/2051721/pages/exploration-web-application-technology-2?module_item_id=26923351
+ --}}
+
+
+
+<h1>Plants</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each plants.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the plant_id, nickname, date_acquired, health_status, user_id, species_id, and location_id }}
+        {{#each plants}}
+        <tr>
+            <td>{{this.plant_id}}</td>
+            <td>{{this.nickname}}</td>
+            <td>{{this.date_acquired}}</td>
+            <td>{{this.health_status}}</td>
+            <td>{{this.user_id}}</td>
+            <td>{{this.species_id}}</td>
+            <td>{{this.location_id}}</td>
+
+            {{! DELETE form }}
+            <td>
+                <form id='delete_plant_form' action='/delete-plant' method='POST'>
+                    <input type='hidden' name='delete_plant_id' value='{{this.plant_id}}' />
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create a Plant</h2>
+<form class='cuForm' id='create_plant_form' action='/add-plant' method='POST'>
+    <label>Nickname: <input type='text' name='nickname' /></label>
+    <label>Date Acquired: <input type='date' name='date_acquired' /></label>
+    <label>Health Status: <input type='text' name='health_status' required /></label>
+    
+    <label>User: 
+        <select name='user_id' required>
+            <option value='' disabled selected>Select a User</option>
+            {{#each users}}
+            <option value='{{this.user_id}}'>{{this.username}}</option>
+            {{/each}}
+        </select>
+    </label>
+
+    <label>Species: 
+        <select name='species_id' required>
+            <option value='' disabled selected>Select a Species</option>
+            {{#each plant_species}}
+            <option value='{{this.species_id}}'>{{this.common_name}}</option>
+            {{/each}}
+        </select>
+    </label>
+
+    <label>Location: 
+        <select name='location_id' required>
+            <option value='' disabled selected>Select a Location</option>
+            {{#each locations}}
+            <option value='{{this.location_id}}'>{{this.location_name}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <input type='submit' value='Create Plant' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a Plant</h2>
+<form class='cuForm' id='update_plant_form' action='/update-plant' method='POST'>
+    <label>Plant to Update: 
+        <select name='update_plant_id' required>
+            <option value='' disabled selected>Select a Plant</option>
+            {{#each plants}}
+            <option value='{{this.plant_id}}'>
+                {{this.plant_id}} - {{this.nickname}}
+            </option>
+            {{/each}}
+        </select>
+    </label>
+    <label>Nickname: <input type='text' name='nickname' /></label>
+    <label>Date Acquired: <input type='date' name='date_acquired' /></label>
+    <label>Health Status: <input type='text' name='health_status' required /></label>
+    
+    <label>User: 
+        <select name='user_id' required>
+            <option value='' disabled selected>Select a User</option>
+            {{#each users}}
+            <option value='{{this.user_id}}'>{{this.username}}</option>
+            {{/each}}
+        </select>
+    </label>
+
+    <label>Species: 
+        <select name='species_id' required>
+            <option value='' disabled selected>Select a Species</option>
+            {{#each plant_species}}
+            <option value='{{this.species_id}}'>{{this.common_name}}</option>
+            {{/each}}
+        </select>
+    </label>
+
+    <label>Location: 
+        <select name='location_id' required>
+            <option value='' disabled selected>Select a Location</option>
+            {{#each locations}}
+            <option value='{{this.location_id}}'>{{this.location_name}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <input type='submit' value='Update Plant' />
+</form>

@@ -1,0 +1,114 @@
+{{!-- 
+Citation for the following code:
+Date: 7/27/2026
+Adapted from from CS340 Exploration - Web Application Technology
+Source URL: https://canvas.oregonstate.edu/courses/2051721/pages/exploration-web-application-technology-2?module_item_id=26923351
+ --}}
+
+<h1>Plant Care Logs</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each logs.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the carelog_id, care_type, date_performed, amount_used, notes, inventory_id, and plant_id }}
+        {{#each logs}}
+        <tr>
+            <td>{{this.carelog_id}}</td>
+            <td>{{this.care_type}}</td>
+            <td>{{this.date_performed}}</td>
+            <td>{{this.amount_used}}</td>
+            <td>{{this.notes}}</td>
+            <td>{{this.inventory_id}}</td>
+            <td>{{this.plant_id}}</td>
+
+            {{! DELETE form }}
+            <td>
+                <form id='delete_log_form' action='/delete-log' method='POST'>
+                    <input type='hidden' name='delete_log_id' value='{{this.carelog_id}}' />
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create a Care Log</h2>
+<form class='cuForm' id='create_log_form' action='/add-log' method='POST'>
+    <label>Care Type: <input type='text' name='care_type' required /></label>
+    <label>Date Performed: <input type='date' name='date_performed' required /></label>
+    <label>Amount Used: <input type='number' step='0.01' name='amount_used' /></label>
+    <label>Notes: <input type='text' name='notes' /></label>
+    
+    <label>Inventory Item (Optional): 
+        <select name='inventory_id'>
+            <option value='NULL'>None</option>
+            {{#each inventories}}
+            <option value='{{this.inventory_id}}'>{{this.product_name}}</option>
+            {{/each}}
+        </select>
+    </label>
+
+    <label>Plant: 
+        <select name='plant_id' required>
+            <option value='' disabled selected>Select a Plant</option>
+            {{#each plants}}
+            <option value='{{this.plant_id}}'>{{this.nickname}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <input type='submit' value='Create Log' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a Care Log</h2>
+<form class='cuForm' id='update_log_form' action='/update-log' method='POST'>
+    <label>Log to Update: 
+        <select name='update_log_id' required>
+            <option value='' disabled selected>Select a Log</option>
+            {{#each logs}}
+            <option value='{{this.carelog_id}}'>
+                {{this.carelog_id}} - {{this.care_type}}
+            </option>
+            {{/each}}
+        </select>
+    </label>
+    <label>Care Type: <input type='text' name='care_type' required /></label>
+    <label>Date Performed: <input type='date' name='date_performed' required /></label>
+    <label>Amount Used: <input type='number' step='0.01' name='amount_used' /></label>
+    <label>Notes: <input type='text' name='notes' /></label>
+    
+    <label>Inventory Item (Optional): 
+        <select name='inventory_id'>
+            <option value='NULL'>None</option>
+            {{#each inventories}}
+            <option value='{{this.inventory_id}}'>{{this.product_name}}</option>
+            {{/each}}
+        </select>
+    </label>
+
+    <label>Plant: 
+        <select name='plant_id' required>
+            <option value='' disabled selected>Select a Plant</option>
+            {{#each plants}}
+            <option value='{{this.plant_id}}'>{{this.nickname}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <input type='submit' value='Update Log' />
+</form>

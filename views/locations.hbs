@@ -1,0 +1,93 @@
+{{!-- 
+Citation for the following code:
+Date: 7/27/2026
+Adapted from from CS340 Exploration - Web Application Technology
+Source URL: https://canvas.oregonstate.edu/courses/2051721/pages/exploration-web-application-technology-2?module_item_id=26923351
+ --}}
+
+<h1>Locations</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each locations.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the location_id, location_name, light_level, temperature_range, notes, and user_id }}
+        {{#each locations}}
+        <tr>
+            <td>{{this.location_id}}</td>
+            <td>{{this.location_name}}</td>
+            <td>{{this.light_level}}</td>
+            <td>{{this.temperature_range}}</td>
+            <td>{{this.notes}}</td>
+            <td>{{this.user_id}}</td>
+
+            {{! DELETE form }}
+            <td>
+                <form id='delete_location_form' action='/delete-location' method='POST'>
+                    <input type='hidden' name='delete_location_id' value='{{this.location_id}}' />
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create a Location</h2>
+<form class='cuForm' id='create_location_form' action='/add-location' method='POST'>
+    <label>Location Name: <input type='text' name='location_name' required /></label>
+    <label>Light Level: <input type='text' name='light_level' /></label>
+    <label>Temp Range: <input type='text' name='temperature_range' /></label>
+    <label>Notes: <input type='text' name='notes' /></label>
+    <label>User: 
+        <select name='user_id' required>
+            <option value='' disabled selected>Select a User</option>
+            {{#each users}}
+            <option value='{{this.user_id}}'>{{this.username}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <input type='submit' value='Create Location' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a Location</h2>
+<form class='cuForm' id='update_location_form' action='/update-location' method='POST'>
+    <label>Location to Update: 
+        <select name='update_location_id' required>
+            <option value='' disabled selected>Select a Location</option>
+            {{#each locations}}
+            <option value='{{this.location_id}}'>
+                {{this.location_id}} - {{this.location_name}}
+            </option>
+            {{/each}}
+        </select>
+    </label>
+    <label>Location Name: <input type='text' name='location_name' required /></label>
+    <label>Light Level: <input type='text' name='light_level' /></label>
+    <label>Temp Range: <input type='text' name='temperature_range' /></label>
+    <label>Notes: <input type='text' name='notes' /></label>
+    <label>User: 
+        <select name='user_id' required>
+            <option value='' disabled selected>Select a User</option>
+            {{#each users}}
+            <option value='{{this.user_id}}'>{{this.username}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <input type='submit' value='Update Location' />
+</form>

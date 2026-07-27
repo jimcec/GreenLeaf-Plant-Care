@@ -1,0 +1,103 @@
+{{!-- 
+Citation for the following code:
+Date: 7/27/2026
+Adapted from from CS340 Exploration - Web Application Technology
+Source URL: https://canvas.oregonstate.edu/courses/2051721/pages/exploration-web-application-technology-2?module_item_id=26923351
+ --}}
+
+
+<h1>Inventories</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            {{#each inventories.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the inventory_id, product_name, category, manufacturer, qty_on_hand, unit, purchase_date, expiration_date, and user_id }}
+        {{#each inventories}}
+        <tr>
+            <td>{{this.inventory_id}}</td>
+            <td>{{this.product_name}}</td>
+            <td>{{this.category}}</td>
+            <td>{{this.manufacturer}}</td>
+            <td>{{this.qty_on_hand}}</td>
+            <td>{{this.unit}}</td>
+            <td>{{this.purchase_date}}</td>
+            <td>{{this.expiration_date}}</td>
+            <td>{{this.user_id}}</td>
+
+            {{! DELETE form }}
+            <td>
+                <form id='delete_inventory_form' action='/delete-inventory' method='POST'>
+                    <input type='hidden' name='delete_inventory_id' value='{{this.inventory_id}}' />
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create Inventory Item</h2>
+<form class='cuForm' id='create_inventory_form' action='/add-inventory' method='POST'>
+    <label>Product Name: <input type='text' name='product_name' required /></label>
+    <label>Category: <input type='text' name='category' required /></label>
+    <label>Manufacturer: <input type='text' name='manufacturer' /></label>
+    <label>Qty On Hand: <input type='number' step='0.01' name='qty_on_hand' required /></label>
+    <label>Unit: <input type='text' name='unit' required /></label>
+    <label>Purchase Date: <input type='date' name='purchase_date' /></label>
+    <label>Expiration Date: <input type='date' name='expiration_date' /></label>
+    <label>User: 
+        <select name='user_id' required>
+            <option value='' disabled selected>Select a User</option>
+            {{#each users}}
+            <option value='{{this.user_id}}'>{{this.username}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <input type='submit' value='Create Item' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update Inventory Item</h2>
+<form class='cuForm' id='update_inventory_form' action='/update-inventory' method='POST'>
+    <label>Item to Update: 
+        <select name='update_inventory_id' required>
+            <option value='' disabled selected>Select an Item</option>
+            {{#each inventories}}
+            <option value='{{this.inventory_id}}'>
+                {{this.inventory_id}} - {{this.product_name}}
+            </option>
+            {{/each}}
+        </select>
+    </label>
+    <label>Product Name: <input type='text' name='product_name' required /></label>
+    <label>Category: <input type='text' name='category' required /></label>
+    <label>Manufacturer: <input type='text' name='manufacturer' /></label>
+    <label>Qty On Hand: <input type='number' step='0.01' name='qty_on_hand' required /></label>
+    <label>Unit: <input type='text' name='unit' required /></label>
+    <label>Purchase Date: <input type='date' name='purchase_date' /></label>
+    <label>Expiration Date: <input type='date' name='expiration_date' /></label>
+    <label>User: 
+        <select name='user_id' required>
+            <option value='' disabled selected>Select a User</option>
+            {{#each users}}
+            <option value='{{this.user_id}}'>{{this.username}}</option>
+            {{/each}}
+        </select>
+    </label>
+    <input type='submit' value='Update Item' />
+</form>
