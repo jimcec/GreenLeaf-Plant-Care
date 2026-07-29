@@ -14,15 +14,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-const PORT = 40069;
+const PORT = process.env.PORT || 40069;
 
 // Database
 const db = require('./database/db-connector');
 
 // Handlebars
-const { engine } = require('express-handlebars'); 
-app.engine('.hbs', engine({ extname: '.hbs' })); 
-app.set('view engine', '.hbs'); 
+const { engine } = require('express-handlebars');
+app.engine('.hbs', engine({ extname: '.hbs' }));
+app.set('view engine', '.hbs');
 
 // ########################################
 // ########## GET ROUTES (READ)
