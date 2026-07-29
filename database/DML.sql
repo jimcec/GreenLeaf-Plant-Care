@@ -2,10 +2,9 @@
 
 -- Create a user
 INSERT INTO Users
-(username, email, password)
+(username, email, password, date_joined)
 VALUES
-(:usernameInput, :emailInput, :passwordInput);
-
+(:usernameInput, :emailInput, :passwordInput, CURDATE());
 -- Read users (password intentionally excluded)
 SELECT
     user_id,
