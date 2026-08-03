@@ -1,4 +1,4 @@
-{{!-- 
+{{!--
 Citation for the following code:
 Date: 7/27/2026
 Adapted from from CS340 Exploration - Web Application Technology
@@ -54,8 +54,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2051721/pages/exploration-web
     <label>Date Performed: <input type='date' name='date_performed' required /></label>
     <label>Amount Used: <input type='number' step='0.01' name='amount_used' /></label>
     <label>Notes: <input type='text' name='notes' /></label>
-    
-    <label>Inventory Item (Optional): 
+
+    <label>Inventory Item (Optional):
         <select name='inventory_id'>
             <option value='NULL'>None</option>
             {{#each inventories}}
@@ -64,7 +64,7 @@ Source URL: https://canvas.oregonstate.edu/courses/2051721/pages/exploration-web
         </select>
     </label>
 
-    <label>Plant: 
+    <label>Plant:
         <select name='plant_id' required>
             <option value='' disabled selected>Select a Plant</option>
             {{#each plants}}
@@ -78,7 +78,7 @@ Source URL: https://canvas.oregonstate.edu/courses/2051721/pages/exploration-web
 {{! UPDATE form }}
 <h2>Update a Care Log</h2>
 <form class='cuForm' id='update_log_form' action='/update-log' method='POST'>
-    <label>Log to Update: 
+    <label>Log to Update:
         <select name='update_log_id' required>
             <option value='' disabled selected>Select a Log</option>
             {{#each logs}}
@@ -92,8 +92,8 @@ Source URL: https://canvas.oregonstate.edu/courses/2051721/pages/exploration-web
     <label>Date Performed: <input type='date' name='date_performed' required /></label>
     <label>Amount Used: <input type='number' step='0.01' name='amount_used' /></label>
     <label>Notes: <input type='text' name='notes' /></label>
-    
-    <label>Inventory Item (Optional): 
+
+    <label>Inventory Item (Optional):
         <select name='inventory_id'>
             <option value='NULL'>None</option>
             {{#each inventories}}
@@ -102,7 +102,7 @@ Source URL: https://canvas.oregonstate.edu/courses/2051721/pages/exploration-web
         </select>
     </label>
 
-    <label>Plant: 
+    <label>Plant:
         <select name='plant_id' required>
             <option value='' disabled selected>Select a Plant</option>
             {{#each plants}}
