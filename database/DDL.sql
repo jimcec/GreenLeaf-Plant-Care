@@ -1,13 +1,3 @@
--- Citation:
--- Date: 8/2/2026
--- Adapted from the CS340 Project Step 4 RESET stored procedure example.
--- Source: OSU CS340 Project Step 4 assignment materials.
-
-DROP PROCEDURE IF EXISTS sp_ResetGreenLeaf;
-
-DELIMITER //
-
-CREATE PROCEDURE sp_ResetGreenLeaf()
 BEGIN
     SET FOREIGN_KEY_CHECKS = 0;
 
@@ -18,6 +8,11 @@ BEGIN
     DROP TABLE IF EXISTS Locations;
     DROP TABLE IF EXISTS PlantSpecies;
     DROP TABLE IF EXISTS Users;
+
+
+    -- ========================================
+    -- CREATE TABLES
+    -- ========================================
 
     CREATE TABLE Users (
         user_id INT NOT NULL AUTO_INCREMENT,
@@ -32,6 +27,7 @@ BEGIN
       DEFAULT CHARSET=utf8mb4
       COLLATE=utf8mb4_general_ci;
 
+
     CREATE TABLE PlantSpecies (
         species_id INT NOT NULL AUTO_INCREMENT,
         scientific_name VARCHAR(150) NOT NULL,
@@ -44,6 +40,7 @@ BEGIN
     ) ENGINE=InnoDB
       DEFAULT CHARSET=utf8mb4
       COLLATE=utf8mb4_general_ci;
+
 
     CREATE TABLE Locations (
         location_id INT NOT NULL AUTO_INCREMENT,
@@ -62,6 +59,7 @@ BEGIN
     ) ENGINE=InnoDB
       DEFAULT CHARSET=utf8mb4
       COLLATE=utf8mb4_general_ci;
+
 
     CREATE TABLE Inventories (
         inventory_id INT NOT NULL AUTO_INCREMENT,
@@ -83,6 +81,7 @@ BEGIN
     ) ENGINE=InnoDB
       DEFAULT CHARSET=utf8mb4
       COLLATE=utf8mb4_general_ci;
+
 
     CREATE TABLE Plants (
         plant_id INT NOT NULL AUTO_INCREMENT,
@@ -113,6 +112,7 @@ BEGIN
       DEFAULT CHARSET=utf8mb4
       COLLATE=utf8mb4_general_ci;
 
+
     CREATE TABLE PlantCareLogs (
         carelog_id INT NOT NULL AUTO_INCREMENT,
         care_type VARCHAR(50) NOT NULL,
@@ -138,20 +138,211 @@ BEGIN
       DEFAULT CHARSET=utf8mb4
       COLLATE=utf8mb4_general_ci;
 
-    /*
-      Paste your sample INSERT statements here in this order:
 
-      1. Users
-      2. PlantSpecies
-      3. Locations
-      4. Inventories
-      5. Plants
-      6. PlantCareLogs
-    */
+    -- ========================================
+    -- INSERT SAMPLE DATA
+    -- ========================================
+
+    INSERT INTO Users
+        (username, email, password, date_joined)
+    VALUES
+        (
+            'cs340_demo_user',
+            'cs340_demo_user@example.com',
+            'hashed_password_1',
+            '2026-07-01'
+        ),
+        (
+            'cs340_demo_user2',
+            'cs340_demo_user2@example.com',
+            'hashed_password_2',
+            '2026-07-02'
+        );
+
+
+    INSERT INTO PlantSpecies
+        (
+            scientific_name,
+            common_name,
+            sunlight_type,
+            watering_frequency,
+            soil_type,
+            pet_safe
+        )
+    VALUES
+        (
+            'Monstera deliciosa',
+            'Monstera',
+            'Bright indirect light',
+            'Every 7 to 10 days',
+            'Well-draining tropical mix',
+            0
+        ),
+        (
+            'Epipremnum aureum',
+            'Golden Pothos',
+            'Medium to bright indirect light',
+            'When top inch of soil is dry',
+            'Standard houseplant mix',
+            0
+        ),
+        (
+            'Chlorophytum comosum',
+            'Spider Plant',
+            'Bright indirect light',
+            'Every 7 days',
+            'Well-draining potting mix',
+            1
+        );
+
+
+    INSERT INTO Locations
+        (
+            location_name,
+            light_level,
+            temperature_range,
+            notes,
+            user_id
+        )
+    VALUES
+        (
+            'Living Room Window',
+            'Bright',
+            '65-75F',
+            'South-facing window',
+            1
+        ),
+        (
+            'Bedroom Shelf',
+            'Medium',
+            '65-72F',
+            'Receives indirect afternoon light',
+            1
+        ),
+        (
+            'Office Desk',
+            'Medium',
+            '68-75F',
+            'Near an east-facing window',
+            2
+        );
+
+
+    INSERT INTO Inventories
+        (
+            product_name,
+            category,
+            manufacturer,
+            qty_on_hand,
+            unit,
+            purchase_date,
+            expiration_date,
+            user_id
+        )
+    VALUES
+        (
+            'Indoor Plant Fertilizer',
+            'Fertilizer',
+            'GreenGrow',
+            24.00,
+            'oz',
+            '2026-06-15',
+            '2028-06-15',
+            1
+        ),
+        (
+            'Organic Potting Mix',
+            'Soil',
+            'PlantWorks',
+            10.00,
+            'lb',
+            '2026-06-20',
+            NULL,
+            1
+        ),
+        (
+            'Neem Oil Spray',
+            'Pest Control',
+            'Garden Care',
+            12.00,
+            'oz',
+            '2026-07-01',
+            '2028-07-01',
+            2
+        );
+
+
+    INSERT INTO Plants
+        (
+            nickname,
+            date_acquired,
+            health_status,
+            user_id,
+            species_id,
+            location_id
+        )
+    VALUES
+        (
+            'Monty',
+            '2026-05-10',
+            'Healthy',
+            1,
+            1,
+            1
+        ),
+        (
+            'Goldie',
+            '2026-05-20',
+            'Healthy',
+            1,
+            2,
+            2
+        ),
+        (
+            'Charlotte',
+            '2026-06-05',
+            'Needs Attention',
+            2,
+            3,
+            3
+        );
+
+
+    INSERT INTO PlantCareLogs
+        (
+            care_type,
+            date_performed,
+            amount_used,
+            notes,
+            inventory_id,
+            plant_id
+        )
+    VALUES
+        (
+            'Watering',
+            '2026-07-20',
+            16.00,
+            'Soil was dry before watering',
+            NULL,
+            1
+        ),
+        (
+            'Fertilizing',
+            '2026-07-22',
+            1.00,
+            'Used diluted indoor plant fertilizer',
+            1,
+            2
+        ),
+        (
+            'Pest Treatment',
+            '2026-07-25',
+            2.00,
+            'Applied neem oil to affected leaves',
+            3,
+            3
+        );
+
 
     SET FOREIGN_KEY_CHECKS = 1;
-END //
-
-DELIMITER ;
-
-CALL sp_ResetGreenLeaf();
+END
