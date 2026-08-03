@@ -1,3 +1,10 @@
+DROP PROCEDURE IF EXISTS sp_ResetGreenLeaf;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_ResetGreenLeaf()
+
+
 BEGIN
     SET FOREIGN_KEY_CHECKS = 0;
 
@@ -345,4 +352,8 @@ BEGIN
 
 
     SET FOREIGN_KEY_CHECKS = 1;
-END
+END //
+
+DELIMITER ;
+
+CALL sp_ResetGreenLeaf();
