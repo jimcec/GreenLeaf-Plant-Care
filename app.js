@@ -372,6 +372,21 @@ app.post('/delete-log', async function(req, res) {
     }
 });
 
+
+// ########################################
+// ########## RESET DATABASE
+
+app.post('/reset-database', async function (req, res) {
+    try {
+        await db.query('CALL sp_ResetGreenLeaf();');
+        res.redirect('/');
+    } catch (error) {
+        console.error('Error resetting database:', error);
+        res.status(500).send('Error resetting database.');
+    }
+});
+
+
 // ########################################
 // ########## LISTENER
 
